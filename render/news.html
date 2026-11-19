@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The World Today — 19 November 2026</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #0B1220; }
+  body { font-family: "DejaVu Sans", sans-serif; }
+  .canvas {
+    width: 1024px; height: 1024px; position: relative;
+    background: #0B1220; color: #F5F1E8; overflow: hidden;
+  }
+  .serif { font-family: "Liberation Serif", "DejaVu Serif", serif; }
+
+  /* ---------- masthead ---------- */
+  .masthead { position: absolute; top: 0; left: 16px; right: 16px; height: 118px; text-align: center; }
+  .kicker {
+    margin-top: 8px; font-size: 28px; font-weight: bold; letter-spacing: 8px;
+    color: #E8B400;
+  }
+  .dateline {
+    font-size: 64px; font-weight: bold; line-height: 1.0; color: #FFFFFF;
+    letter-spacing: 1px; margin-top: 2px;
+  }
+  .rule { height: 3px; background: #E8B400; margin: 4px 0 0 0; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position: absolute; top: 126px; left: 16px; right: 16px; height: 334px;
+    display: flex; gap: 8px;
+  }
+  .col { width: 264px; display: flex; flex-direction: column; gap: 8px; }
+  .panel {
+    position: relative; height: 163px; border-radius: 10px; overflow: hidden;
+    background: #131C2E;
+  }
+  .panel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .panel .shade {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(4,8,16,0.94) 0%, rgba(4,8,16,0.45) 48%, rgba(4,8,16,0.05) 72%);
+  }
+  .tab {
+    position: absolute; top: 10px; left: 10px; z-index: 2;
+    font-size: 26px; font-weight: bold; letter-spacing: 1px;
+    color: #0B1220; padding: 3px 10px; border-radius: 4px;
+  }
+  .panel h2 {
+    position: absolute; left: 12px; right: 12px; bottom: 10px; z-index: 2;
+    font-size: 40px; line-height: 1.08; font-weight: bold; color: #FFFFFF;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+  }
+  .globe {
+    flex: 1; position: relative; border-radius: 12px; overflow: hidden;
+    background: #000000;
+  }
+  .globe img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .globe .shade {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(4,8,16,0.88) 0%, rgba(4,8,16,0.25) 42%, rgba(4,8,16,0) 60%);
+  }
+  .globe .worldnews {
+    position: absolute; left: 0; right: 0; bottom: 42px; z-index: 2; text-align: center;
+    font-size: 58px; font-weight: bold; color: #FFFFFF; letter-spacing: 2px;
+    text-shadow: 0 2px 14px rgba(0,0,0,0.95);
+  }
+  .globe .sub {
+    position: absolute; left: 0; right: 0; bottom: 12px; z-index: 2; text-align: center;
+    font-size: 26px; font-weight: bold; letter-spacing: 2px; color: #E8B400;
+  }
+
+  /* ---------- row 2 cards ---------- */
+  .row2 {
+    position: absolute; top: 468px; left: 16px; right: 16px; height: 252px;
+    display: flex; gap: 8px;
+  }
+  .card {
+    width: 325px; border-radius: 10px; overflow: hidden; background: #131C2E;
+    position: relative;
+  }
+  .card .photo { position: relative; height: 112px; overflow: hidden; }
+  .card .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card .body { padding: 8px 12px 8px 12px; }
+  .card h2 {
+    font-size: 40px; line-height: 1.0; font-weight: bold; color: #F5F1E8;
+  }
+  .card .dek {
+    font-size: 34px; line-height: 1.05; color: #C6CDD8; margin-top: 4px;
+  }
+
+  /* ---------- numbers strip ---------- */
+  .numbers {
+    position: absolute; top: 728px; left: 16px; right: 16px; height: 86px;
+    display: flex; border-top: 2px solid #26324A; border-bottom: 2px solid #26324A;
+  }
+  .stat { flex: 1; text-align: center; padding-top: 8px; }
+  .stat + .stat { border-left: 2px solid #26324A; }
+  .stat .num { font-size: 52px; font-weight: bold; line-height: 1.0; color: #E8B400; }
+  .stat .lbl { font-size: 26px; color: #C6CDD8; margin-top: 2px; }
+
+  /* ---------- takeaways + map ---------- */
+  .bottom {
+    position: absolute; top: 822px; left: 16px; right: 16px; height: 162px;
+    display: flex; gap: 16px;
+  }
+  .takeaways { width: 560px; padding-top: 6px; }
+  .takeaways .lbl {
+    font-size: 26px; font-weight: bold; letter-spacing: 3px; color: #E8B400;
+  }
+  .takeaways p {
+    font-size: 30px; line-height: 1.2; color: #F5F1E8; margin-top: 8px;
+  }
+  .mapwrap { flex: 1; display: flex; align-items: center; justify-content: flex-end; }
+
+  /* ---------- footer ---------- */
+  .footer {
+    position: absolute; top: 984px; left: 16px; right: 16px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; color: #9AA3B2; border-top: 2px solid #26324A;
+  }
+</style>
+</head>
+<body>
+<div class="canvas">
+
+  <div class="masthead">
+    <div class="kicker">THE WORLD TODAY &middot; 2026</div>
+    <div class="dateline serif">THURSDAY &middot; 19 NOVEMBER</div>
+    <div class="rule"></div>
+  </div>
+
+  <div class="hero">
+    <div class="col">
+      <div class="panel">
+        <img src="assets/shenzhen.jpg" alt="">
+        <div class="shade"></div>
+        <div class="tab" style="background:#2E9E6B;">ASIA</div>
+        <h2 class="serif">Shenzhen summit</h2>
+      </div>
+      <div class="panel">
+        <img src="assets/vicecity.jpg" alt="">
+        <div class="shade"></div>
+        <div class="tab" style="background:#E0568B;">CULTURE</div>
+        <h2 class="serif">GTA VI launches</h2>
+      </div>
+    </div>
+    <div class="globe">
+      <img src="assets/globe.jpg" alt="">
+      <div class="shade"></div>
+      <div class="worldnews serif">WORLD NEWS</div>
+      <div class="sub">SEVEN STORIES &middot; ONE DAY</div>
+    </div>
+    <div class="col">
+      <div class="panel">
+        <img src="assets/trading.jpg" alt="">
+        <div class="shade"></div>
+        <div class="tab" style="background:#3E8FE8;">TECH</div>
+        <h2 class="serif">Anthropic lists</h2>
+      </div>
+      <div class="panel">
+        <img src="assets/peacepalace.jpg" alt="">
+        <div class="shade"></div>
+        <div class="tab" style="background:#9B6ED8;">JUSTICE</div>
+        <h2 class="serif">Court rules today</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="row2">
+    <div class="card">
+      <div class="photo">
+        <img src="assets/gaza.jpg" alt="">
+        <div class="tab" style="background:#E0653A;">MIDDLE EAST</div>
+      </div>
+      <div class="body">
+        <h2 class="serif">Gaza operation</h2>
+        <div class="dek">Second day in Gaza</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="photo">
+        <img src="assets/voyager.jpg" alt="">
+        <div class="tab" style="background:#35B6C9;">SPACE</div>
+      </div>
+      <div class="body">
+        <h2 class="serif">Voyager 1, one light-day</h2>
+        <div class="dek">NASA confirms it</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="photo">
+        <img src="assets/australia.jpg" alt="">
+        <div class="tab" style="background:#D8A03C;">OCEANIA</div>
+      </div>
+      <div class="body">
+        <h2 class="serif">Australia sanctions</h2>
+        <div class="dek">Settlers targeted</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="numbers">
+    <div class="stat"><div class="num serif">99</div><div class="lbl">GTA VI Metacritic</div></div>
+    <div class="stat"><div class="num serif">$81.3B</div><div class="lbl">Largest IPO ever</div></div>
+    <div class="stat"><div class="num serif">16M</div><div class="lbl">Copies pre-sold</div></div>
+    <div class="stat"><div class="num serif">16.1B</div><div class="lbl">Miles from Earth</div></div>
+  </div>
+
+  <div class="bottom">
+    <div class="takeaways">
+      <div class="lbl">KEY TAKEAWAYS</div>
+      <p>Trump, Xi and Putin meet &mdash; a first.</p>
+      <p>GTA VI launches; Anthropic lists.</p>
+    </div>
+    <div class="mapwrap"><svg width="400" height="128" viewBox="0 0 400 128" xmlns="http://www.w3.org/2000/svg"><circle cx="24.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="33.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="42.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="51.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="60.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="69.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="15.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="24.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="33.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="42.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="51.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="60.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="69.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="78.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="87.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="96.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="15.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="24.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="33.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="42.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="51.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="60.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="69.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="78.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="87.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="96.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="105.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="24.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="33.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="42.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="51.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="60.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="69.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="78.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="87.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="96.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="105.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="33.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="42.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="51.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="60.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="69.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="78.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="87.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="96.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="42.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="51.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="60.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="69.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="78.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="87.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="51.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="60.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="141.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="150.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="141.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="150.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="69.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="78.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="87.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="96.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="105.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="69.0" cy="85.0" r="2.6" fill="#5B6B84"/><circle cx="78.0" cy="85.0" r="2.6" fill="#5B6B84"/><circle cx="87.0" cy="85.0" r="2.6" fill="#5B6B84"/><circle cx="96.0" cy="85.0" r="2.6" fill="#5B6B84"/><circle cx="69.0" cy="96.0" r="2.6" fill="#5B6B84"/><circle cx="78.0" cy="96.0" r="2.6" fill="#5B6B84"/><circle cx="87.0" cy="96.0" r="2.6" fill="#5B6B84"/><circle cx="78.0" cy="107.0" r="2.6" fill="#5B6B84"/><circle cx="186.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="195.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="204.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="213.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="186.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="195.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="204.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="213.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="222.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="186.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="195.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="204.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="213.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="222.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="231.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="240.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="186.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="195.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="204.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="213.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="222.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="231.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="240.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="249.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="186.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="195.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="204.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="213.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="222.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="231.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="240.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="195.0" cy="85.0" r="2.6" fill="#5B6B84"/><circle cx="204.0" cy="85.0" r="2.6" fill="#5B6B84"/><circle cx="213.0" cy="85.0" r="2.6" fill="#5B6B84"/><circle cx="222.0" cy="85.0" r="2.6" fill="#5B6B84"/><circle cx="231.0" cy="85.0" r="2.6" fill="#5B6B84"/><circle cx="195.0" cy="96.0" r="2.6" fill="#5B6B84"/><circle cx="204.0" cy="96.0" r="2.6" fill="#5B6B84"/><circle cx="213.0" cy="96.0" r="2.6" fill="#5B6B84"/><circle cx="222.0" cy="96.0" r="2.6" fill="#5B6B84"/><circle cx="222.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="231.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="240.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="249.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="258.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="267.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="276.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="285.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="294.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="303.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="312.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="321.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="330.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="339.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="348.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="357.0" cy="8.0" r="2.6" fill="#5B6B84"/><circle cx="222.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="231.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="240.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="249.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="258.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="267.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="276.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="285.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="294.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="303.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="312.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="321.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="330.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="339.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="348.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="357.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="366.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="375.0" cy="19.0" r="2.6" fill="#5B6B84"/><circle cx="231.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="240.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="249.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="258.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="267.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="276.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="285.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="294.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="303.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="312.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="321.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="330.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="339.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="348.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="357.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="366.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="375.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="384.0" cy="30.0" r="2.6" fill="#5B6B84"/><circle cx="231.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="240.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="249.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="258.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="267.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="276.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="285.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="294.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="303.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="312.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="321.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="330.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="339.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="348.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="357.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="366.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="375.0" cy="41.0" r="2.6" fill="#5B6B84"/><circle cx="240.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="249.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="258.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="267.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="276.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="285.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="294.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="303.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="312.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="321.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="330.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="339.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="348.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="357.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="366.0" cy="52.0" r="2.6" fill="#5B6B84"/><circle cx="276.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="285.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="294.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="303.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="312.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="321.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="330.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="339.0" cy="63.0" r="2.6" fill="#5B6B84"/><circle cx="303.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="312.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="321.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="330.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="339.0" cy="74.0" r="2.6" fill="#5B6B84"/><circle cx="321.0" cy="85.0" r="2.6" fill="#5B6B84"/><circle cx="330.0" cy="85.0" r="2.6" fill="#5B6B84"/><circle cx="339.0" cy="85.0" r="2.6" fill="#5B6B84"/><circle cx="348.0" cy="85.0" r="2.6" fill="#5B6B84"/><circle cx="357.0" cy="85.0" r="2.6" fill="#5B6B84"/><circle cx="366.0" cy="85.0" r="2.6" fill="#5B6B84"/><circle cx="321.0" cy="96.0" r="2.6" fill="#5B6B84"/><circle cx="330.0" cy="96.0" r="2.6" fill="#5B6B84"/><circle cx="339.0" cy="96.0" r="2.6" fill="#5B6B84"/><circle cx="348.0" cy="96.0" r="2.6" fill="#5B6B84"/><circle cx="357.0" cy="96.0" r="2.6" fill="#5B6B84"/><circle cx="330.0" cy="52.0" r="5.5" fill="#E8B400"/><circle cx="330.0" cy="52.0" r="8.5" fill="none" stroke="#E8B400" stroke-opacity="0.45" stroke-width="1.5"/><circle cx="195.0" cy="35.5" r="5.5" fill="#E8B400"/><circle cx="195.0" cy="35.5" r="8.5" fill="none" stroke="#E8B400" stroke-opacity="0.45" stroke-width="1.5"/><circle cx="240.0" cy="57.5" r="5.5" fill="#E8B400"/><circle cx="240.0" cy="57.5" r="8.5" fill="none" stroke="#E8B400" stroke-opacity="0.45" stroke-width="1.5"/><circle cx="348.0" cy="96.0" r="5.5" fill="#E8B400"/><circle cx="348.0" cy="96.0" r="8.5" fill="none" stroke="#E8B400" stroke-opacity="0.45" stroke-width="1.5"/><circle cx="96.0" cy="41.0" r="5.5" fill="#E8B400"/><circle cx="96.0" cy="41.0" r="8.5" fill="none" stroke="#E8B400" stroke-opacity="0.45" stroke-width="1.5"/><circle cx="42.0" cy="46.5" r="5.5" fill="#E8B400"/><circle cx="42.0" cy="46.5" r="8.5" fill="none" stroke="#E8B400" stroke-opacity="0.45" stroke-width="1.5"/></svg></div>
+  </div>
+
+  <div class="footer">All events first reported 19 Nov 2026 &middot; Reuters, NASA, Al Jazeera</div>
+
+</div>
+</body>
+</html>
